@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>COURT MANAGEMENT</title>
+        <style>
+            body {
+                background-color: #d0e4fe;
+            }
+            h1 {
+                color: black;
+                text-align: left;
+            }
+            h2 {
+                color: grey;
+                text-align: left;
+            }
+            crt {
+                color: firebrick;
+                text-align: center;
+                font-size: 50px;
+            }
+            p {
+                font-size: 20px;
+            }
+            div.courts{
+                border-radius: 10px;
+                border: 2px solid black;
+                text-align: center;
+                float: left;
+                width: 30vw;
+                height: 200px;
+                background-color: #B3E6FF;
+            }
+            div.waitlist{
+                border-radius: 10px;
+                border:2px solid;
+                text-align: right;
+                float: right;
+                width: 8vw;
+                height:70vh;
+                
+            }
+            td {
+                font-size: 40px;
+                background-color: white;
+            }
+        </style>
+    </head>
+    <script>
+        function Queue(){var a=[],b=0;this.getLength=function(){return a.length-b};this.isEmpty=function(){return 0==a.length};this.enqueue=function(b){a.push(b)};this.dequeue=function(){if(0!=a.length){var c=a[b];2*++b>=a.length&&(a=a.slice(b),b=0);return c}};this.peek=function(){return 0<a.length?a[b]:void 0}};
+
+        var players = new Queue();
+        var beginners = new Queue();
+        var b2 = new Queue();
+        var intermediates = new Queue();
+        var i2 = new Queue();
+        var advanced = new Queue();
+        var a2 = new Queue();
+        var groupies = new Queue();
+        var g2 = new Queue();
+
+        function enterKey() {
+            var key = window.event.keyCode;
+
+            // If the user has pressed enter
+            if (key == 13) {
+                addPlayer();
+            }
+            else {
+                return true;
+            }
+        }
+        function hlperenqueue(x){
+            if (x.innerHTML != "Empty") {
+                players.enqueue(x.innerHTML);
+                x.className = "zzz";
+                x.style.backgroundColor = "white";
+                x.innerHTML = "Empty";
+            }
+        }
+        function clearCourt(x){
+            x = "c" + x;
+            hlperenqueue(document.getElementById(x+"p1"));
+            hlperenqueue(document.getElementById(x+"p2"));
+            hlperenqueue(document.getElementById(x+"p3"));
+            hlperenqueue(document.getElementById(x+"p4"));
+            sortPlayers();
+        }
+        function addPlayer(){
+            players.enqueue(document.getElementById("IDTag").value);
+            document.getElementById("IDTag").value = "";
+            document.getElementById("IDTag").focus();
+            sortPlayers();
+        }
+        function sortPlayers(){
+            var c;
+            var d;
+            var e;
+            while (!players.isEmpty()){
+                c = players.peek();
+                d = c.substr(0,1);
+                e = c.substr(1,1);
+                if ( e == "." || e == ";" || e == "*"){
+                    document.getElementById("waitG").innerHTML += c;
+                    document.getElementById("waitG").innerHTML += "<br>";
+                    groupies.enqueue(players.dequeue());
+                } else if ( d == "."){
+                    document.getElementById("waitB").innerHTML += c;
+                    document.getElementById("waitB").innerHTML += "<br>";
+                    beginners.enqueue(players.dequeue());
+                } else if ( d == ";"){
+                    document.getElementById("waitI").innerHTML += c;
+                    document.getElementById("waitI").innerHTML += "<br>";
+                    intermediates.enqueue(players.dequeue());
+                } else if ( d == "*"){
+                    document.getElementById("waitA").innerHTML += c;
+                    document.getElementById("waitA").innerHTML += "<br>";
+                    advanced.enqueue(players.dequeue());
+                } else {
+                    players.dequeue();
+                }
+            }
+        }
+        
+        function updateWait(){
+            var c;
+            document.getElementById("waitB").innerHTML = "";
+            document.getElementById("waitI").innerHTML = "";
+            document.getElementById("waitA").innerHTML = "";
+            document.getElementById("waitG").innerHTML = "";
+            while (!beginners.isEmpty()){
+                b2.enqueue(beginners.dequeue());
+            }
+            while (!b2.isEmpty()){
+                c = b2.peek();
+                document.getElementById("waitB").innerHTML += c;
+                document.getElementById("waitB").innerHTML += "<br>";
+                beginners.enqueue(b2.dequeue());
+            }
+            
+            while (!intermediates.isEmpty()){
+                i2.enqueue(intermediates.dequeue());
+            }
+            while (!i2.isEmpty()){
+                c = i2.peek();
+                document.getElementById("waitI").innerHTML += c;
+                document.getElementById("waitI").innerHTML += "<br>";
+                intermediates.enqueue(i2.dequeue());
+            }
+            
+            while (!advanced.isEmpty()){
+                a2.enqueue(advanced.dequeue());
+            }
+            while (!a2.isEmpty()){
+                c = a2.peek();
+                document.getElementById("waitA").innerHTML += c;
+                document.getElementById("waitA").innerHTML += "<br>";
+                advanced.enqueue(a2.dequeue());
+            }
+            while (!groupies.isEmpty()){
+                g2.enqueue(groupies.dequeue());
+            }
+            while (!g2.isEmpty()){
+                c = g2.peek();
+                document.getElementById("waitG").innerHTML += c;
+                document.getElementById("waitG").innerHTML += "<br>";
+                groupies.enqueue(g2.dequeue());
+            }
+            document.getElementById("kek").style.display="none";
+            setTimeout(updateWait, 100);
+        }
+        function removePlayer(x){
+            x = document.getElementById(x);
+            x.innerHTML = "Empty";
+            x.className = "zzz";
+            x.style.backgroundColor = "white";
+        }
+
+        function clearOver(x){
+            x = "crt" + x;
+            x = document.getElementById(x);
+            x.style.color = "red";
+            x.innerHTML = "Clear Court <br>";
+        }
+        function clearAway(x){
+            y = x;
+            x = "crt" + x;
+            x = document.getElementById(x);
+            x.style.color = "firebrick";
+            x.innerHTML = "Court " + y + "<br>";
+        }
+        function lightB(){
+            document.getElementById("bigB").style.backgroundColor = "#80FF80";
+        }
+        function dimB(){
+            document.getElementById("bigB").style.backgroundColor = "transparent";
+        }
+        function lightI(){
+            document.getElementById("bigI").style.backgroundColor = "#FFC299";
+        }
+        function dimI(){
+            document.getElementById("bigI").style.backgroundColor = "transparent";
+        }
+        function lightA(){
+            document.getElementById("bigA").style.backgroundColor = "#FFB3B3";
+        }
+        function dimA(){
+            document.getElementById("bigA").style.backgroundColor = "transparent";
+        }
+        function lightG(){
+            document.getElementById("bigG").style.backgroundColor = "pink";
+        }
+        function dimG(){
+            document.getElementById("bigG").style.backgroundColor = "transparent";
+        }
+        function greenful(x){
+            elms = document.getElementsByClassName(x);
+            for (var i = 0; i < elms.length; i++) {
+                elms[i].style.backgroundColor="#00FF00";
+            }
+        }
+        function orangeful(x){
+            elms = document.getElementsByClassName(x);
+            for (var i = 0; i < elms.length; i++) {
+                elms[i].style.backgroundColor="#FF9933";
+            }
+        }
+        function powerful(x){
+            elms = document.getElementsByClassName(x);
+            for (var i = 0; i < elms.length; i++) {
+                elms[i].style.backgroundColor="#FF3333";
+            }
+        }
+        
+        function qBegin(x,c){
+            if (!c.isEmpty()){
+                var tmp = c.dequeue();
+                x.innerHTML = tmp;
+                x.className = "beginner";
+            }
+        }
+        function qInter(x,c){
+            if (!c.isEmpty()){
+                var tmp = c.dequeue();
+                x.innerHTML = tmp;
+                x.className = "intermediate";
+            }
+        }
+        function qAdvan(x,c){
+            if (!c.isEmpty()){
+                var tmp = c.dequeue();
+                x.innerHTML = tmp;
+                x.className = "advance";
+            }
+        }
+        function qGroup(x,c){
+            if (!c.isEmpty()){
+                var tmp = c.dequeue();
+                x.innerHTML = tmp;
+                var d = x.innerHTML.substr(1,1);
+                if (d == "."){
+                    x.className = "beginner";
+                } else if (d == ";"){
+                    x.className = "intermediate";
+                } else if (d == "*"){
+                    x.className = "advance";
+                }
+            }
+        }
+        
+        function queueBeginner(x){
+            x = "c" + x;
+            if (document.getElementById(x+"p1").innerHTML == "Empty") {
+                qBegin(document.getElementById(x+"p1"),beginners);
+            }else if (document.getElementById(x+"p2").innerHTML == "Empty") {
+                qBegin(document.getElementById(x+"p2"),beginners);
+            }else if (document.getElementById(x+"p3").innerHTML == "Empty") {
+                qBegin(document.getElementById(x+"p3"),beginners);
+            }else if (document.getElementById(x+"p4").innerHTML == "Empty") {
+                qBegin(document.getElementById(x+"p4"),beginners);  
+            }
+            greenful("beginner");
+        }
+        function queueIntermediate(x){
+            x = "c" + x;
+            if (document.getElementById(x+"p1").innerHTML == "Empty") {
+                qInter(document.getElementById(x+"p1"),intermediates);
+            }else if (document.getElementById(x+"p2").innerHTML == "Empty") {
+                qInter(document.getElementById(x+"p2"),intermediates);
+            }else if (document.getElementById(x+"p3").innerHTML == "Empty") {
+                qInter(document.getElementById(x+"p3"),intermediates);
+            }else if (document.getElementById(x+"p4").innerHTML == "Empty") {
+                qInter(document.getElementById(x+"p4"),intermediates);  
+            }
+            orangeful("intermediate");
+        }
+        function queueAdvanced(x){
+            x = "c" + x;
+            if (document.getElementById(x+"p1").innerHTML == "Empty") {
+                qAdvan(document.getElementById(x+"p1"),advanced);
+            }else if (document.getElementById(x+"p2").innerHTML == "Empty") {
+                qAdvan(document.getElementById(x+"p2"),advanced);
+            }else if (document.getElementById(x+"p3").innerHTML == "Empty") {
+                qAdvan(document.getElementById(x+"p3"),advanced);
+            }else if (document.getElementById(x+"p4").innerHTML == "Empty") {
+                qAdvan(document.getElementById(x+"p4"),advanced);  
+            }
+            powerful("advance");
+        }
+        function queueGroup(x){
+            x = "c" + x;
+            if (document.getElementById(x+"p1").innerHTML == "Empty") {
+                qGroup(document.getElementById(x+"p1"),groupies);
+            }else if (document.getElementById(x+"p2").innerHTML == "Empty") {
+                qGroup(document.getElementById(x+"p2"),groupies);
+            }else if (document.getElementById(x+"p3").innerHTML == "Empty") {
+                qGroup(document.getElementById(x+"p3"),groupies);
+            }else if (document.getElementById(x+"p4").innerHTML == "Empty") {
+                qGroup(document.getElementById(x+"p4"),groupies);  
+            }
+            greenful("beginner");
+            orangeful("intermediate");
+            powerful("advance");
+        }
+        
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            var tst = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.innerHTML = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(tst);
+                    display.innerHTML = "TIMER";
+                }
+            }, 1000);
+        }
+    </script>
+    
+    <body>
+        <div class="title">
+            <p style="float:left;">Tag ID:</p> <textarea id="IDTag" rows="2" cols="9" style="float:left; font-size:20px" onkeyup="enterKey()"></textarea>
+             <table border="1" style="float:left"><tr><td style="font-size:15px; background-color:transparent;"> . = beginner</td><td style="font-size:15px; background-color:transparent;"> ; = intermediate</td><td style="font-size:15px; background-color:transparent;"> * = advance</td><td style="font-size:15px; background-color:transparent;"> .A02=beginner ;A45=intermediate *C03=advance</td></tr></table>
+            <textarea id="friends" rows="4" cols="80vw" style="float:right;background-color:rgba(255,255,255,0.25)">Group Together: put a matching symbol (any symbol) infront of their tags i.e.  °;B34 °;B23 would go together    ~.A03 ~;C74 go together etc etc</textarea> <button id="timr" onclick="startTimer(60*14.3,timr)" style="font-size:40px;"> TIMER</button> <button id="kek" onclick="updateWait()"> CLICK ME FOR AN UPDATING WAITLIST HEH</button>
+
+            <h2>=======================Front of Gym========================</h2>
+            
+
+        
+            <div class="courts" id="court1">
+                <crt  id="crt1" onclick="clearCourt(1)" onmouseover="clearOver(1)" onmouseout="clearAway(1)"> Court 1 <br/> </crt>
+                <button onClick="queueBeginner(1)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
+                <button onClick="queueIntermediate(1)" onmouseover="lightI()" onmouseout="dimI()">+Intermediate</button>
+                <button onClick="queueAdvanced(1)" onmouseover="lightA()" onmouseout="dimA()">+Advanced</button>
+                <button onClick="queueGroup(1)" onmouseover="lightG()" onmouseout="dimG()">+Group</button>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td id="c1p1" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c1p2" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                    <tr>
+                        <td id="c1p3" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c1p4" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                </table>
+            </div>            
+            <div class="courts" id="court4">
+                <crt id="crt4" onclick="clearCourt(4)" onmouseover="clearOver(4)" onmouseout="clearAway(4)"> Court 4 <br/> </crt>
+                <button onClick="queueBeginner(4)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
+                <button onClick="queueIntermediate(4)" onmouseover="lightI()" onmouseout="dimI()">+Intermediate</button>
+                <button onClick="queueAdvanced(4)" onmouseover="lightA()" onmouseout="dimA()">+Advanced</button>
+                <button onClick="queueGroup(4)" onmouseover="lightG()" onmouseout="dimG()">+Group</button>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td id="c4p1" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c4p2" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                    <tr>
+                        <td id="c4p3" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c4p4" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="waitlist" id="bigB" style="border:2px solid green;">
+            <h1 style="color:green; text-align:center; font-size:30px;">.Beg</h1>
+                <p id="waitB">
+                
+                </p>
+            </div>
+            <div class="waitlist" id="bigI" style="border:2px solid orange;">
+            <h1 style="color:#FF6600; text-align:center; font-size:30px;">;Int</h1>
+                <p id="waitI">
+                
+                </p>
+            </div>
+            <div class="waitlist" id="bigA" style="border:2px solid red;">
+            <h1 style="color:red; text-align:center; font-size:30px;">*Adv</h1>
+                <p id="waitA">
+                
+                </p>
+            </div>
+            <div class="waitlist" id="bigG" style="border:2px solid #FF00FF;">
+            <h1 style="color:#FF00FF; text-align:center; font-size:30px;">Groups</h1>
+                <p id="waitG">
+                
+                </p>
+            </div>
+            
+            <div class="courts" id="court2">
+                <crt id="crt2" onclick="clearCourt(2)" onmouseover="clearOver(2)" onmouseout="clearAway(2)"> Court 2 <br/> </crt>
+                <button onClick="queueBeginner(2)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
+                <button onClick="queueIntermediate(2)" onmouseover="lightI()" onmouseout="dimI()">+Intermediate</button>
+                <button onClick="queueAdvanced(2)" onmouseover="lightA()" onmouseout="dimA()">+Advanced</button>
+                <button onClick="queueGroup(2)" onmouseover="lightG()" onmouseout="dimG()">+Group</button>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td id="c2p1" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c2p2" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                    <tr>
+                        <td id="c2p3" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c2p4" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="courts" id="court5">
+                <crt id="crt5" onclick="clearCourt(5)" onmouseover="clearOver(5)" onmouseout="clearAway(5)"> Court 5 <br/> </crt>
+                <button onClick="queueBeginner(5)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
+                <button onClick="queueIntermediate(5)" onmouseover="lightI()" onmouseout="dimI()">+Intermediate</button>
+                <button onClick="queueAdvanced(5)" onmouseover="lightA()" onmouseout="dimA()">+Advanced</button>
+                <button onClick="queueGroup(5)" onmouseover="lightG()" onmouseout="dimG()">+Group</button>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td id="c5p1" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c5p2" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                    <tr>
+                        <td id="c5p3" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c5p4" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                </table>
+            </div> 
+            
+            <div class="courts" id="court3">
+                <crt id="crt3" onclick="clearCourt(3)" onmouseover="clearOver(3)" onmouseout="clearAway(3)"> Court 3 <br/> </crt>
+                <button onClick="queueBeginner(3)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
+                <button onClick="queueIntermediate(3)" onmouseover="lightI()" onmouseout="dimI()">+Intermediate</button>
+                <button onClick="queueAdvanced(3)" onmouseover="lightA()" onmouseout="dimA()">+Advanced</button>
+                <button onClick="queueGroup(3)" onmouseover="lightG()" onmouseout="dimG()">+Group</button>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td id="c3p1" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c3p2" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                    <tr>
+                        <td id="c3p3" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c3p4" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="courts" id="court6">
+                <crt id="crt6" onclick="clearCourt(6)" onmouseover="clearOver(6)" onmouseout="clearAway(6)"> Court 6 <br/> </crt>
+                <button onClick="queueBeginner(6)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
+                <button onClick="queueIntermediate(6)" onmouseover="lightI()" onmouseout="dimI()">+Intermediate</button>
+                <button onClick="queueAdvanced(6)" onmouseover="lightA()" onmouseout="dimA()">+Advanced</button>
+                <button onClick="queueGroup(6)" onmouseover="lightG()" onmouseout="dimG()">+Group</button>
+                <br>
+                <table border="1" align="center">
+                    <tr>
+                        <td id="c6p1" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c6p2" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                    <tr>
+                        <td id="c6p3" onClick="removePlayer(this.id)">Empty</td>
+                        <td id="c6p4" onClick="removePlayer(this.id)">Empty</td>
+                    </tr>
+                </table>
+            </div> 
+        </div>
+    </body>
+</html>
