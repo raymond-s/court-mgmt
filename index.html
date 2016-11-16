@@ -359,6 +359,9 @@
         
         function startTimer(duration, display) {
             var timer = duration, minutes, seconds;
+            display.disabled = true;
+            display.style.backgroundColor = "red";
+            display.style.cursor = "wait";
             var tst = setInterval(function () {
                 minutes = parseInt(timer / 60, 10);
                 seconds = parseInt(timer % 60, 10);
@@ -371,6 +374,9 @@
                 if (--timer < 0) {
                     clearInterval(tst);
                     display.innerHTML = "TIMER";
+                    display.disabled = false;
+                    display.style.backgroundColor = "#4CAF50";
+                    display.cursor = "pointer";
                 }
             }, 1000);
         }
@@ -410,7 +416,7 @@
             </div>
             
             <div class="dropdown" style="margin-left:9vw;">
-                <button onclick="showTags()" class="dropbtn" style="font-size:20px; float:right;background-color:rgba(255,0,0,0.5);color:black; border-radius:10px;" data-toggle="dropdown">Click me pls</button>
+                <button onclick="showTags()" class="dropbtn" style="font-size:20px; float:right;background-color:rgba(255,0,0,0.5);color:black; border-radius:10px;" data-toggle="dropdown">Tags List</button>
                 <div id="database" class="dropdown-content">
                     <a id="m1" onclick="transferTag(this)">Rize 01 - ?A72</a> 
                     <a id="m2" onclick="transferTag(this)">02 - None</a> <a id="m3" onclick="transferTag(this)">03 - None</a>
