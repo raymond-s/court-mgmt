@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <title>COURT MANAGEMENT</title>
         <style>
@@ -19,6 +18,7 @@
                 color: firebrick;
                 text-align: center;
                 font-size: 50px;
+                cursor: pointer;
             }
             p {
                 font-size: 20px;
@@ -44,12 +44,45 @@
             td {
                 font-size: 40px;
                 background-color: white;
+                cursor: not-allowed;
             }
+            button {
+                border-radius: 5px;
+                background-color: #4CAF50;
+                color: white;
+                font-size: 15px;
+                border: none;
+                cursor: pointer;
+            }
+            .dropdown {
+                float:right;
+                position: relative;
+                display: inline-block;
+            }
+            .dropdown-content {
+                height: 250px;
+                overflow: auto;
+                text-align: right;
+                right:0;
+                display:none;
+                position: absolute;
+                background-color:azure;
+                min-width: 230px;
+                box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.2);
+            }
+            .dropdown-content a {
+                display: block;
+            }
+            .drop-content a:hover {
+                background-color: red;
+                cursor: pointer;
+            }
+            .show {display:block;}
         </style>
     </head>
     <script>
         function Queue(){var a=[],b=0;this.getLength=function(){return a.length-b};this.isEmpty=function(){return 0==a.length};this.enqueue=function(b){a.push(b)};this.dequeue=function(){if(0!=a.length){var c=a[b];2*++b>=a.length&&(a=a.slice(b),b=0);return c}};this.peek=function(){return 0<a.length?a[b]:void 0}};
-
+        
         var players = new Queue();
         var beginners = new Queue();
         var b2 = new Queue();
@@ -60,12 +93,12 @@
         var groupies = new Queue();
         var g2 = new Queue();
 
-        function enterKey() {
+        function enterKey(x) {
             var key = window.event.keyCode;
 
             // If the user has pressed enter
             if (key == 13) {
-                addPlayer();
+                if(x.id == "IDTag"){addPlayer();}
             }
             else {
                 return true;
@@ -341,18 +374,194 @@
                 }
             }, 1000);
         }
+        
+        function transferTag(x){
+            var y = x.innerHTML.substr(-4);
+            document.getElementById("IDTag").value = y;
+            document.getElementById("IDTag").focus();
+        }
+        
+        function showTags() {
+            document.getElementById("database").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
     </script>
     
     <body>
         <div class="title">
-            <p style="float:left;">Tag ID:</p> <textarea id="IDTag" rows="2" cols="9" style="float:left; font-size:20px" onkeyup="enterKey()"></textarea>
-             <table border="1" style="float:left"><tr><td style="font-size:15px; background-color:transparent;"> . = beginner</td><td style="font-size:15px; background-color:transparent;"> ; = intermediate</td><td style="font-size:15px; background-color:transparent;"> * = advance</td><td style="font-size:15px; background-color:transparent;"> .A02=beginner ;A45=intermediate *C03=advance</td></tr></table>
-            <textarea id="friends" rows="4" cols="80vw" style="float:right;background-color:rgba(255,255,255,0.25)">Group Together: put a matching symbol (any symbol) infront of their tags i.e.  °;B34 °;B23 would go together    ~.A03 ~;C74 go together etc etc</textarea> <button id="timr" onclick="startTimer(60*14.3,timr)" style="font-size:40px;"> TIMER</button> <button id="kek" onclick="updateWait()"> CLICK ME FOR AN UPDATING WAITLIST HEH</button>
-
-            <h2>=======================Front of Gym========================</h2>
+            <div style="width:80vw;float:left;">
+            <p style="float:left;">Tag ID:</p> <textarea id="IDTag" rows="2" cols="8" style="float:left; font-size:15px" onkeyup="enterKey(this)"></textarea> 
+            <!-- <p style="float:left;">Mem ID:</p> <textarea id="memID" rows="2" cols="8" style="float:left;font-size:15px;" onkeyup="enterKey(this)"></textarea> -->
+            <table border="1" style="float:left"><tr><td style="font-size:15px; background-color:transparent;"> . = beginner</td><td style="font-size:15px; background-color:transparent;"> ; = intermediate</td><td style="font-size:15px; background-color:transparent;"> * = advance</td></tr></table>
+            <button id="timr" onclick="startTimer(60*14.3,timr)" style="font-size:40px;"> TIMER</button> <br><br> <button id="kek" onclick="updateWait()"> CLICK ME FOR AN UPDATING WAITLIST HEH</button>
+            </div>
             
-
-        
+            <div class="dropdown" style="margin-left:9vw;">
+                <button onclick="showTags()" class="dropbtn" style="font-size:20px; float:right;background-color:rgba(255,0,0,0.5);color:black; border-radius:10px;" data-toggle="dropdown">Click me pls</button>
+                <div id="database" class="dropdown-content">
+                    <a id="m1" onclick="transferTag(this)">Rize 01 - ?A72</a> 
+                    <a id="m2" onclick="transferTag(this)">02 - None</a> <a id="m3" onclick="transferTag(this)">03 - None</a>
+                    <a id="m4" onclick="transferTag(this)">04 - None</a> <a id="m5" onclick="transferTag(this)">05 - None</a>
+                    <a id="m6" onclick="transferTag(this)">06 - None</a> <a id="m7" onclick="transferTag(this)">07 - None</a> 
+                    <a id="m8" onclick="transferTag(this)">08 - None</a> <a id="m9" onclick="transferTag(this)">09 - None</a>
+                    
+                    <a id="m10" onclick="transferTag(this)">10 - None</a> <a id="m11" onclick="transferTag(this)">Cynthia 11 - None</a>
+                    <a id="m12" onclick="transferTag(this)">12 - None</a> <a id="m13" onclick="transferTag(this)">13 - None</a>
+                    <a id="m14" onclick="transferTag(this)">14 - None</a> <a id="m15" onclick="transferTag(this)">15 - None</a>
+                    <a id="m16" onclick="transferTag(this)">16 - None</a> <a id="m17" onclick="transferTag(this)">Stephen 17 - None</a> 
+                    <a id="m18" onclick="transferTag(this)">18 - None</a> <a id="m19" onclick="transferTag(this)">Yingzi 19 - None</a>
+                    
+                    <a id="m20" onclick="transferTag(this)">20 - None</a> <a id="m21" onclick="transferTag(this)">Raphaël 21 - ;B81</a>
+                    <a id="m22" onclick="transferTag(this)">Ellis 22 - None</a> <a id="m23" onclick="transferTag(this)">Xinyu 23 - *C62</a>
+                    <a id="m24" onclick="transferTag(this)">Moinuddin 24 - None</a> <a id="m25" onclick="transferTag(this)">Paige 25 - None</a>
+                    <a id="m26" onclick="transferTag(this)">Mika 26 - *A63</a> <a id="m27" onclick="transferTag(this)">Huiyu 27 - None</a> 
+                    <a id="m28" onclick="transferTag(this)">Ashley 28 - None</a> <a id="m29" onclick="transferTag(this)">Nicole 29 - None</a>
+                    
+                    <a id="m30" onclick="transferTag(this)">Jiaying 30 - ?B71</a> <a id="m31" onclick="transferTag(this)">DaDa 31 - .B84</a> 
+                    <a id="m32" onclick="transferTag(this)">Matt 32 - None</a> <a id="m33" onclick="transferTag(this)">Tony 33 - .A04</a> 
+                    <a id="m34" onclick="transferTag(this)">Yingfan 34 - None</a> <a id="m35" onclick="transferTag(this)">Rene 35 - None</a> 
+                    <a id="m36" onclick="transferTag(this)">Aijia 36 - ;B34</a> <a id="m37" onclick="transferTag(this)">37 - None</a>
+                    <a id="m38" onclick="transferTag(this)">38 - None</a> <a id="m39" onclick="transferTag(this)">Zachary 39 - ;B64</a>
+                    
+                    <a id="m40" onclick="transferTag(this)">Barry 40 - None</a> <a id="m41" onclick="transferTag(this)">Jonathan 41 - None</a>
+                    <a id="m42" onclick="transferTag(this)">Harry 42 - None</a> <a id="m43" onclick="transferTag(this)">Ziyang 43 - None</a>
+                    <a id="m44" onclick="transferTag(this)">Jungho 44 - None</a> <a id="m45" onclick="transferTag(this)">Alexander 45 - None</a>
+                    <a id="m46" onclick="transferTag(this)">Harry 46 - .A82</a> <a id="m47" onclick="transferTag(this)">Lawson 47 - .A08</a>
+                    <a id="m48" onclick="transferTag(this)">Victor 48 - None</a> <a id="m49" onclick="transferTag(this)">49 - None</a>
+                    
+                    <a id="m50" onclick="transferTag(this)">Christina 50 - *C13</a> <a id="m51" onclick="transferTag(this)">Maggie 51 - None</a>
+                    <a id="m52" onclick="transferTag(this)">Joshua 52 - None</a> <a id="m53" onclick="transferTag(this)">Jack 53 - None</a>
+                    <a id="m54" onclick="transferTag(this)">Daniel 54 - None</a> <a id="m55" onclick="transferTag(this)">Michael 55 - None</a>
+                    <a id="m56" onclick="transferTag(this)">Joe 56 - None</a> <a id="m57" onclick="transferTag(this)">Carlos 57 - None</a>
+                    <a id="m58" onclick="transferTag(this)">Quan 58 - None</a> <a id="m59" onclick="transferTag(this)">John 59 - None</a>
+                    
+                    <a id="m60" onclick="transferTag(this)">Xiangyu 60 - *C24</a> <a id="m61" onclick="transferTag(this)">Anson 61 - None</a>
+                    <a id="m62" onclick="transferTag(this)">Adam 62 - None</a> <a id="m63" onclick="transferTag(this)">Ben 63 - None</a>
+                    <a id="m64" onclick="transferTag(this)">Ruqing 64 - None</a> <a id="m65" onclick="transferTag(this)">Leo 65 - None</a>
+                    <a id="m66" onclick="transferTag(this)">Zhou 66 - None</a> <a id="m67" onclick="transferTag(this)">Haonan 67 - None</a>
+                    <a id="m68" onclick="transferTag(this)">Edward 68 - None</a> <a id="m69" onclick="transferTag(this)">Wen Guang 69 - *C14</a>
+                    
+                    <a id="m70" onclick="transferTag(this)">Tracy 70 - None</a> <a id="m71" onclick="transferTag(this)">Jennifer 71 - None</a>
+                    <a id="m72" onclick="transferTag(this)">Wenting 72 - None</a> <a id="m73" onclick="transferTag(this)">Yiqi 73 - None</a>
+                    <a id="m74" onclick="transferTag(this)">Brian 74 - None</a> <a id="m75" onclick="transferTag(this)">Jinghua 75 - ;B13</a>
+                    <a id="m76" onclick="transferTag(this)">Steven 76 - ;B91</a> <a id="m77" onclick="transferTag(this)">Anand 77 - None</a> 
+                    <a id="m78" onclick="transferTag(this)">jenna 78 - None</a> <a id="m79" onclick="transferTag(this)">Luyao 79 - ;B03</a>
+                    
+                    <a id="m80" onclick="transferTag(this)">Edward 80 - None</a> <a id="m81" onclick="transferTag(this)">Arvind 81 - ;B52</a>
+                    <a id="m82" onclick="transferTag(this)">Lawrence 82 - None</a> <a id="m83" onclick="transferTag(this)">Derek 83 - None</a>
+                    <a id="m84" onclick="transferTag(this)">Hiu Wing 84 - ;B51</a> <a id="m85" onclick="transferTag(this)">Sepehr 85 - None</a>
+                    <a id="m86" onclick="transferTag(this)">Bushra 86 - .A41</a> <a id="m87" onclick="transferTag(this)">Andrew 87 - *B75</a> 
+                    <a id="m88" onclick="transferTag(this)">Alexandra 88 - None</a> <a id="m89" onclick="transferTag(this)">Yining 89 - None</a>
+                    
+                    <a id="m90" onclick="transferTag(this)">Pjotr 90 - None</a> <a id="m91" onclick="transferTag(this)">Sihan 91 - None</a>
+                    <a id="m92" onclick="transferTag(this)">Miller 92 - ;B22</a> <a id="m93" onclick="transferTag(this)">Krishnan 93 - None</a>
+                    <a id="m94" onclick="transferTag(this)">Maimuna 94 - None</a> <a id="m95" onclick="transferTag(this)">Benny 95 - ;B85</a>
+                    <a id="m96" onclick="transferTag(this)">Gaurav 96 - ;B35</a> <a id="m97" onclick="transferTag(this)">Olivia 97 - None</a> 
+                    <a id="m98" onclick="transferTag(this)">Nur Amira 98 - ?B53</a> <a id="m99" onclick="transferTag(this)">Jason 99 - *C92</a>
+                    
+                    <a id="m100" onclick="transferTag(this)">Anson 100 - None</a> <a id="m101" onclick="transferTag(this)">Gregory 101 - ?C74</a> 
+                    <a id="m102" onclick="transferTag(this)">Nick 102 - None</a> <a id="m103" onclick="transferTag(this)">Yixing 103 - *B42</a>
+                    <a id="m104" onclick="transferTag(this)">Xuerui 104 - None</a> <a id="m105" onclick="transferTag(this)">Pai-shen 105 - ;B01</a>
+                    <a id="m106" onclick="transferTag(this)">Hannah 106 - ;C94</a> <a id="m107" onclick="transferTag(this)">Lee 107 - None</a> 
+                    <a id="m108" onclick="transferTag(this)">June 108 - ?D12</a> <a id="m109" onclick="transferTag(this)">Peter 109 - None</a>
+                    
+                    <a id="m110" onclick="transferTag(this)">Michael 110 - None</a> <a id="m111" onclick="transferTag(this)">Kevin 111 - None</a>
+                    <a id="m112" onclick="transferTag(this)">Diane 112 - None</a> <a id="m113" onclick="transferTag(this)">Yanxin 113 - ;D03</a>
+                    <a id="m114" onclick="transferTag(this)">Ian 114 - None</a> <a id="m115" onclick="transferTag(this)">Blodwen 115 - None</a>
+                    <a id="m116" onclick="transferTag(this)">Candy 116 - None</a> <a id="m117" onclick="transferTag(this)">Timothy 117 - None</a> 
+                    <a id="m118" onclick="transferTag(this)">Asjad 118 - None</a> <a id="m119" onclick="transferTag(this)">119 - None</a>
+                    
+                    <a id="m120" onclick="transferTag(this)">Fatima 120 - None</a> <a id="m121" onclick="transferTag(this)"> Jui-Ling 121 - .A62</a>
+                    <a id="m122" onclick="transferTag(this)">Howard 122 - *C85</a> <a id="m123" onclick="transferTag(this)">Jason 123 - None</a>
+                    <a id="m124" onclick="transferTag(this)">Roger 124 - ;A34</a> <a id="m125" onclick="transferTag(this)">Qixuan 125 - ;A64</a>
+                    <a id="m126" onclick="transferTag(this)">Stanley 126 - *C55</a> <a id="m127" onclick="transferTag(this)">Renke 127 - None</a> 
+                    <a id="m128" onclick="transferTag(this)">Charlie 128 - ;B83</a> <a id="m129" onclick="transferTag(this)">Siddharth 129 - None</a>
+                    
+                    <a id="m130" onclick="transferTag(this)">Art 130 - None</a> <a id="m131" onclick="transferTag(this)">Raymond 131 - ;C95</a> 
+                    <a id="m132" onclick="transferTag(this)">Stephanie 132 - None</a> <a id="m133" onclick="transferTag(this)">Eric 133 - ;B95</a> 
+                    <a id="m134" onclick="transferTag(this)">Hanchen 134 - *C64</a> <a id="m135" onclick="transferTag(this)">Devon 135 - None</a> 
+                    <a id="m136" onclick="transferTag(this)">Allen 136 - ;C45</a> <a id="m137" onclick="transferTag(this)">Chen 137 - None</a>
+                    <a id="m138" onclick="transferTag(this)">Zhengyao 138 - .A02</a> <a id="m139" onclick="transferTag(this)">Rixin 139 - .B72</a>
+                    
+                    <a id="m140" onclick="transferTag(this)">Cody 140 - *C21</a> <a id="m141" onclick="transferTag(this)">Jim 141 - None</a>
+                    <a id="m142" onclick="transferTag(this)">Ting 142 - None</a> <a id="m143" onclick="transferTag(this)">Piyush 143 - None</a>
+                    <a id="m144" onclick="transferTag(this)">Tim 144 - ?C04</a> <a id="m145" onclick="transferTag(this)">Andrew 145 - *B05</a>
+                    <a id="m146" onclick="transferTag(this)">Gallina 146 - .D62</a> <a id="m147" onclick="transferTag(this)">Tim 147 - *A81</a>
+                    <a id="m148" onclick="transferTag(this)">Sam 148 - None</a> <a id="m149" onclick="transferTag(this)">Jennifer 149 - None</a>
+                    
+                    <a id="m150" onclick="transferTag(this)">Rose 150 - None</a> <a id="m151" onclick="transferTag(this)">Nero 151 - None</a>
+                    <a id="m152" onclick="transferTag(this)">Saad 152 - None</a> <a id="m153" onclick="transferTag(this)">Tom 153 - None</a>
+                    <a id="m154" onclick="transferTag(this)">Lang 154 - .A61</a> <a id="m155" onclick="transferTag(this)">Fangzai 155 - .A53</a>
+                    <a id="m156" onclick="transferTag(this)">Jason 156 - None</a> <a id="m157" onclick="transferTag(this)">Lydia 157 - None</a>
+                    <a id="m158" onclick="transferTag(this)">Diane 158 - ?B45</a> <a id="m159" onclick="transferTag(this)">Muhammad 159 - None</a>
+                    
+                    <a id="m160" onclick="transferTag(this)">Justin 160 - ?C01</a> <a id="m161" onclick="transferTag(this)">Nicholas 161 - .A93</a>
+                    <a id="m162" onclick="transferTag(this)">Afeq 162 - .A14</a> <a id="m163" onclick="transferTag(this)">Oliver 163 - .A05</a>
+                    <a id="m164" onclick="transferTag(this)">Princen 164 - None</a> <a id="m165" onclick="transferTag(this)">Qingzhou 165 - None</a>
+                    <a id="m166" onclick="transferTag(this)">Yun Wan 166 - None</a> <a id="m167" onclick="transferTag(this)">Benjamin 167 - *C44</a>
+                    <a id="m168" onclick="transferTag(this)">Michael 168 - None</a> <a id="m169" onclick="transferTag(this)">Darren 169 - None</a>
+                    
+                    <a id="m170" onclick="transferTag(this)">Leslie 170 - ?A24</a> <a id="m171" onclick="transferTag(this)">Jade 171 - None</a>
+                    <a id="m172" onclick="transferTag(this)">Yixin 172 - None</a> <a id="m173" onclick="transferTag(this)">Xinzhu 173 - ;B43</a>
+                    <a id="m174" onclick="transferTag(this)">Daniel 174 - None</a> <a id="m175" onclick="transferTag(this)">Jonathan 175 - .A42</a>
+                    <a id="m176" onclick="transferTag(this)">YiuHei 176 - ;B21</a> <a id="m177" onclick="transferTag(this)">Leah 177 - ;B55</a> 
+                    <a id="m178" onclick="transferTag(this)">Gloria 178 - None</a> <a id="m179" onclick="transferTag(this)">Steve 179 - None</a>
+                    
+                    <a id="m180" onclick="transferTag(this)">Haipeng 180 - *A73</a> <a id="m81" onclick="transferTag(this)">Sai Cheon 181 - None</a>
+                    <a id="m182" onclick="transferTag(this)">Cleon 182 - *C75</a> <a id="m83" onclick="transferTag(this)">Jessie 183 - None</a>
+                    <a id="m184" onclick="transferTag(this)">Mellisa 184 - .A11</a> <a id="m85" onclick="transferTag(this)">Yahan 185 - None</a>
+                    <a id="m186" onclick="transferTag(this)">Daria 186 - None</a> <a id="m87" onclick="transferTag(this)">Ziyan 187 - None</a> 
+                    <a id="m188" onclick="transferTag(this)">Allison 188 - None</a> <a id="m89" onclick="transferTag(this)">Vincent 189 - None</a>
+                    
+                    <a id="m190" onclick="transferTag(this)">190 - None</a> <a id="m191" onclick="transferTag(this)">Helen 191 - None</a>
+                    <a id="m192" onclick="transferTag(this)">Chloe 192 - None</a> <a id="m193" onclick="transferTag(this)">William 193 - .A33</a>
+                    <a id="m194" onclick="transferTag(this)">Sofia 194 - None</a> <a id="m195" onclick="transferTag(this)">Marta 195 - .A12</a>
+                    <a id="m196" onclick="transferTag(this)">Nickie 196 - None</a> <a id="m197" onclick="transferTag(this)">Derek 197 - None</a> 
+                    <a id="m198" onclick="transferTag(this)">Sumana 198 - .A83</a> <a id="m199" onclick="transferTag(this)">Mengqi 199 - ;B63</a>
+                    
+                    <a id="m200" onclick="transferTag(this)">Eileen 200 - ;B94</a> <a id="m201" onclick="transferTag(this)">201 - None</a> 
+                    <a id="m202" onclick="transferTag(this)">Arshvir 202 - ;B74</a> <a id="m203" onclick="transferTag(this)">Sussie 203 - ;B44</a>
+                    <a id="m204" onclick="transferTag(this)">Maria 204 - None</a> <a id="m205" onclick="transferTag(this)">Tony 205 - None</a>
+                    <a id="m206" onclick="transferTag(this)">Danvin 206 - ;B04</a> <a id="m207" onclick="transferTag(this)">Jennifer 207 - ;B45</a> 
+                    <a id="m208" onclick="transferTag(this)">Nicole 208 - ;B24</a> <a id="m209" onclick="transferTag(this)">Yihan 209 - None</a>
+                    
+                    <a id="m210" onclick="transferTag(this)">Kyle 210 - .B93</a> <a id="m211" onclick="transferTag(this)">Caroline 211 - None</a>
+                    <a id="m212" onclick="transferTag(this)">Nate 212 - None</a> <a id="m213" onclick="transferTag(this)">Denton 213 - None</a>
+                    <a id="m214" onclick="transferTag(this)">Melanie 214 - ?A91</a> <a id="m215" onclick="transferTag(this)"> Jialian 215 - *C94</a>
+                    <a id="m216" onclick="transferTag(this)">Peide 216 - *A54</a> <a id="m217" onclick="transferTag(this)">Chenshen 217 - ;A84</a> 
+                    <a id="m218" onclick="transferTag(this)">Hunter 218 - *B65</a> <a id="m219" onclick="transferTag(this)">Muhamad 219 - None</a>
+                    
+                    <a id="m220" onclick="transferTag(this)">Thomas 220 - None</a> <a id="m221" onclick="transferTag(this)">Grace 221 - .A74</a>
+                    <a id="m222" onclick="transferTag(this)">Alice 222 - ;D01</a> <a id="m223" onclick="transferTag(this)">Annie 223 - ;A71</a>
+                    <a id="m224" onclick="transferTag(this)">Philip 224 - ;B15</a> <a id="m225" onclick="transferTag(this)">Tianyi 225 - .A06</a>
+                    <a id="m226" onclick="transferTag(this)">Jayson 226 - None</a> <a id="m227" onclick="transferTag(this)">Caroline 227 - None</a> 
+                    <a id="m228" onclick="transferTag(this)">Charis 228 - *C22</a> <a id="m229" onclick="transferTag(this)">Edric 229 - ?A07</a>
+                    
+                    <a id="m230" onclick="transferTag(this)">230 - None</a> <a id="m231" onclick="transferTag(this)">Jennifer 231 - ;B23</a>
+                    <a id="m232" onclick="transferTag(this)">Lujia 232 - ;B32</a> <a id="m233" onclick="transferTag(this)">Thea 233 - None</a>
+                    <a id="m234" onclick="transferTag(this)">Zhiqiang 234 - ;B62</a> <a id="m235" onclick="transferTag(this)">Xin 235 - ?C51</a>
+                    <a id="m236" onclick="transferTag(this)">236 - None</a> <a id="m237" onclick="transferTag(this)">Jim 237 - *C33</a> 
+                    <a id="m238" onclick="transferTag(this)">Dana 238 - ;B41</a> <a id="m239" onclick="transferTag(this)">Olivia 239 - ;B54</a>
+                    
+                    <a id="m249" onclick="transferTag(this)">Sonali 249 - .A01</a> <a id="m250" onclick="transferTag(this)">Sujal 250 - None</a>
+                    <a id="m261" onclick="transferTag(this)">Justin 261 - *C91</a> <a id="m299" onclick="transferTag(this)">Summer 299 - ;B11</a>
+                </div>
+            </div>
+            
+            <h2>=======================Front of Gym========================</h2>
             <div class="courts" id="court1">
                 <crt  id="crt1" onclick="clearCourt(1)" onmouseover="clearOver(1)" onmouseout="clearAway(1)"> Court 1 <br/> </crt>
                 <button onClick="queueBeginner(1)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
@@ -389,32 +598,18 @@
                     </tr>
                 </table>
             </div>
-            
             <div class="waitlist" id="bigB" style="border:2px solid green;">
-            <h1 style="color:green; text-align:center; font-size:30px;">.Beg</h1>
-                <p id="waitB">
-                
-                </p>
+            <h1 style="color:green; text-align:center; font-size:30px;">.Beg</h1><p id="waitB"></p>
             </div>
             <div class="waitlist" id="bigI" style="border:2px solid orange;">
-            <h1 style="color:#FF6600; text-align:center; font-size:30px;">;Int</h1>
-                <p id="waitI">
-                
-                </p>
+            <h1 style="color:#FF6600; text-align:center; font-size:30px;">;Int</h1><p id="waitI"></p>
             </div>
             <div class="waitlist" id="bigA" style="border:2px solid red;">
-            <h1 style="color:red; text-align:center; font-size:30px;">*Adv</h1>
-                <p id="waitA">
-                
-                </p>
+            <h1 style="color:red; text-align:center; font-size:30px;">*Adv</h1><p id="waitA"></p>
             </div>
             <div class="waitlist" id="bigG" style="border:2px solid #FF00FF;">
-            <h1 style="color:#FF00FF; text-align:center; font-size:30px;">Groups</h1>
-                <p id="waitG">
-                
-                </p>
+            <h1 style="color:#FF00FF; text-align:center; font-size:30px;">Groups</h1><p id="waitG"></p>
             </div>
-            
             <div class="courts" id="court2">
                 <crt id="crt2" onclick="clearCourt(2)" onmouseover="clearOver(2)" onmouseout="clearAway(2)"> Court 2 <br/> </crt>
                 <button onClick="queueBeginner(2)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
@@ -451,7 +646,6 @@
                     </tr>
                 </table>
             </div> 
-            
             <div class="courts" id="court3">
                 <crt id="crt3" onclick="clearCourt(3)" onmouseover="clearOver(3)" onmouseout="clearAway(3)"> Court 3 <br/> </crt>
                 <button onClick="queueBeginner(3)" onmouseover="lightB()" onmouseout="dimB()">+Beginners</button>
