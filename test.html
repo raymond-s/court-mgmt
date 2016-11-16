@@ -47,9 +47,10 @@
             }
         </style>
     </head>
+    <!-- <script src="../HTML/assets/js/jquery.csv.js"></script>-->
     <script>
         function Queue(){var a=[],b=0;this.getLength=function(){return a.length-b};this.isEmpty=function(){return 0==a.length};this.enqueue=function(b){a.push(b)};this.dequeue=function(){if(0!=a.length){var c=a[b];2*++b>=a.length&&(a=a.slice(b),b=0);return c}};this.peek=function(){return 0<a.length?a[b]:void 0}};
-
+        
         var players = new Queue();
         var beginners = new Queue();
         var b2 = new Queue();
@@ -341,13 +342,37 @@
                 }
             }, 1000);
         }
+        
+        function readTextFile(file) {
+            var rFile = new XMLHttpRequest();
+            rFile.open("GET",file,true);
+            rFile.onreadystatechange = function () {
+                if(rFile.readyState === 4){
+                    if (rFile.status === 200 || rFile.status == 0 ){
+                        var alltxt = rFile.responseText;
+                        alert(alltxt);
+                    }
+                }
+            }
+            rFile.send(null);
+        }
+        readTextFile("https://github.com/raymond-s/court-mgmt/blob/master/assets/memberslist.csv");
+        
+        function usrFind(){
+            var x = document.getElementById("memID");
+            var y = document.getElementById("IDTag");
+            var xx = x.value;
+            var yy = y.value;
+            y.value = yy;
+            y.focus();
+        }
     </script>
     
     <body>
         <div class="title">
-            <p style="float:left;">Tag ID:</p> <textarea id="IDTag" rows="2" cols="9" style="float:left; font-size:20px" onkeyup="enterKey()"></textarea>
-             <table border="1" style="float:left"><tr><td style="font-size:15px; background-color:transparent;"> . = beginner</td><td style="font-size:15px; background-color:transparent;"> ; = intermediate</td><td style="font-size:15px; background-color:transparent;"> * = advance</td><td style="font-size:15px; background-color:transparent;"> .A02=beginner ;A45=intermediate *C03=advance</td></tr></table>
-            <textarea id="friends" rows="4" cols="80vw" style="float:right;background-color:rgba(255,255,255,0.25)">Group Together: put a matching symbol (any symbol) infront of their tags i.e.  °;B34 °;B23 would go together    ~.A03 ~;C74 go together etc etc</textarea> <button id="timr" onclick="startTimer(60*14.3,timr)" style="font-size:40px;"> TIMER</button> <button id="kek" onclick="updateWait()"> CLICK ME FOR AN UPDATING WAITLIST HEH</button>
+            <p style="float:left;">Tag ID:</p> <textarea id="IDTag" rows="2" cols="8" style="float:left; font-size:15px" onkeyup="enterKey()"></textarea> <p style="float:left;">Mem ID:</p> <textarea id="memID" rows="2" cols="8" style="float:left;font-size:15px;"></textarea>
+             <table border="1" style="float:left"><tr><td style="font-size:15px; background-color:transparent;"> . = beginner</td><td style="font-size:15px; background-color:transparent;"> ; = intermediate</td><td style="font-size:15px; background-color:transparent;"> * = advance</td></tr></table>
+            <textarea id="friends" rows="4" cols="80vw" style="float:right;background-color:rgba(255,255,255,0.25)">Group Together: put a matching symbol (any symbol) infront of their tags i.e.  °;B34 °;B23 would go together    ~.A03 ~;C74 go together etc etc</textarea> <button id="timr" onclick="startTimer(60*14.3,timr)" style="font-size:40px;"> TIMER</button> <br> <br><button id="rtrv" onclick="usrFind()" style="float:left; font-size:20px;">Find User</button> <button id="kek" onclick="updateWait()"> CLICK ME FOR AN UPDATING WAITLIST HEH</button>
 
             <h2>=======================Front of Gym========================</h2>
             
