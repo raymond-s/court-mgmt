@@ -17,6 +17,8 @@ Dropdown menu in the top right corner has all recorded Membership IDs and matchi
 
 Can manually input other and custom tags in the TagID textbox to be sorted into the groups.
 
+Tags in the dropdown menus that have a ? prefix means I was unable to determine which skill group the player belongd in. If said players come during court hours please note down what they are when you put them in and let me know of those corrects so I can fix them.
+
 { . } { ; } { * } are used to identify players as beginner, intermediate, and advanced skill level respectively.
 
 Appending any other symbol (or digit, for that matter) will place that Tag into the Group category. Repeat the symbols for players who want to play together.
