@@ -31,6 +31,8 @@ Clicking directly on a player grid will take remove that player from this sessio
 
 Clicking the TIMER will put on a timer until the next court change. Timer takes into account of people coming to check court placement so timer starts at a bit less than 15 minutes.
 
+Clicking on the Switch Courts button will rotate to a second set of court boxes so that you can set up the next set of players before cycling back in the current players
+
 Click the "CLICK ME FOR AN UPDATING WAITLIST HEH" at the beginning to initialize some functions to fun continuously and keep the waitlists updating as you place and remove players.
 
 Further clarification can be received by contacting the author (Raymond).
